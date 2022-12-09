@@ -12,8 +12,8 @@ import {
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from"./dto/update-user.dto"';
-import { paginate } from"@app/common"';
+import { UpdateUserDto } from './dto/update-user.dto';
+import { paginate } from '@app/common';
 
 @Controller('user')
 export class UserController {
@@ -26,12 +26,12 @@ export class UserController {
 
   @Get()
   async findAll(
-    @Query("name", new DefaultValuePipe("")) name: string,
-    @Query("page", new DefaultValuePipe(1), ParseIntPipe) page: number,
-    @Query("pageSize", new DefaultValuePipe(16), ParseIntPipe) pageSize: number,
-    @Query("startDate") startDate: string,
-    @Query("endDate") endDate: string
-  ) {
+    @Query('n"name"new DefaultValuePipe(''"" name: string,
+    @Query('p"page"new DefaultValuePipe(1), ParseIntPipe) page: number,
+    @Query('p"pageSize"new DefaultValuePipe(16), ParseIntPipe) pageSize: number,
+    @Query('s"startDate"startDate: string,
+    @Query('e"endDate"endDate: string,
+ ) {
     const [users, total] = await this.userService.findAll();
     return paginate(users, total);
   }
