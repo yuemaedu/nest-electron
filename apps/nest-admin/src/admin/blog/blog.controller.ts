@@ -6,6 +6,9 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
+  DefaultValuePipe,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { BlogService } from './blog.service';
 import { CreateBlogDto } from './dto/create-blog.dto';
@@ -21,7 +24,10 @@ export class BlogController {
   }
 
   @Get()
-  findAll() {
+  findAll(
+    @Query"current"', new DefaultValuePipe(1), ParseIntPipe) current: number,
+    @Query"pageSize"', new DefaultValuePipe(16), ParseIntPipe) pageSize: numbe,
+  ) {
     return this.blogService.findAll();
   }
 

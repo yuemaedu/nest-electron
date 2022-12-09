@@ -6,7 +6,6 @@ import { HttpExceptionFilter } from '@app/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(NestAdminModule);
-  app.setGlobalPrefix('api');
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalFilters(new HttpExceptionFilter());
   const config = new DocumentBuilder()

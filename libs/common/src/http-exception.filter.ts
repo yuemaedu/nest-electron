@@ -11,18 +11,29 @@ import { error } from './common.response';
 export class HttpExceptionFilter<T> implements ExceptionFilter {
   catch(exception: HttpException, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
-    const response = ctx.getResponse<Response>();
     const request = ctx.getRequest<Request>();
-    const status = exception.getStatus();
-    const msg = exception.getResponse();
-    const message = typeof msg === 'string' ? msg : msg['message'];
-    response.status(status).json(
-      error(message, {
-        statusCode: status,
-        timestamp: new Date().toISOString(),
-        path: request.url,
-        method: request.method,
-      }),
-    );
+    const response = ctx.getResponse<Response>();
+    // 先捕获http异常
+    if (exception instanceof HttpException) {
+      const status = exception.getStatus();
+      response.status(status).json(
+        error(exception.message, {
+          statusCode: status,
+          timestamp: new Date().toISOString(),
+          path: request.url,
+          method: request.method,
+        }),
+      );
+    } else {
+      // 后捕获代码异常
+      response.status(500).json(
+        error(String(exception), {
+          statusCode: 500,
+          timestamp: new Date().toISOString(),
+          path: request.url,
+          method: request.method,
+        }),
+      );
+    }
   }
 }
