@@ -14,7 +14,6 @@ export class BlogService {
   create(createBlogDto: CreateBlogDto) {
     return this.blogRepository.insert(createBlogDto);
   }
-
   deleteBlogs(ids: string[]) {
     return this.blogRepository.delete(ids);
   }

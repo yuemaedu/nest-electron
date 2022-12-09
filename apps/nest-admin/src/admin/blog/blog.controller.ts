@@ -17,10 +17,11 @@ import {
 import { BlogService } from './blog.service';
 import { CreateBlogDto } from './dto/create-blog.dto';
 import { UpdateBlogDto } from './dto/update-blog.dto';
+import { error, paginate, success } from '@app/common/common.response';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { join } from 'path';
 import { createWriteStream, mkdirSync } from 'fs';
-import { error, paginate, randomStr, success } from '@app/common';
+import { randomStr } from '@app/common/common.utils';
 
 @Controller('blog')
 export class BlogController {
@@ -34,7 +35,6 @@ export class BlogController {
     }
     return error('添加失败');
   }
-
   @Post('deleteBlog')
   async deleteBlog(@Body('ids') ids: string[]) {
     const { affected } = await this.blogService.deleteBlogs(ids);
@@ -79,7 +79,7 @@ export class BlogController {
     return this.blogService.findOne(+id);
   }
 
-  @Patch(":id")
+  @Patch(':id')
   async update(
     @Param("id", ParseIntPipe) id: number,
     @Body() updateBlogDto: UpdateBlogDto
