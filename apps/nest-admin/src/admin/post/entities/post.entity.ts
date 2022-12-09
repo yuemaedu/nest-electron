@@ -8,6 +8,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { User } from '../../user/entities/user.entity';
+import { Blog } from '../../blog/entities/blog.entity';
 
 @Entity()
 export class Post {
@@ -16,8 +17,12 @@ export class Post {
 
   @Column({ type: 'text' })
   content: string;
+
   @ManyToOne(() => User, (user) => user.posts)
   user: User;
+
+  @ManyToOne(() => Blog, (blog) => blog.posts)
+  blog: Blog;
 
   @CreateDateColumn()
   createdAt: Date;

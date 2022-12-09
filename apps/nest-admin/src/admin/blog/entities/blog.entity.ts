@@ -3,9 +3,11 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { Post } from '../../post/entities/post.entity';
 
 @Entity()
 export class Blog {
@@ -34,4 +36,7 @@ export class Blog {
 
   @Column()
   category: string;
+
+  @OneToMany(() => Post, (post) => post.blog)
+  posts: Post[];
 }
