@@ -81,8 +81,8 @@ export class BlogController {
 
   @Patch(':id')
   async update(
-    @Param("id", ParseIntPipe) id: number,
-    @Body() updateBlogDto: UpdateBlogDto
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateBlogDto: UpdateBlogDto,
   ) {
     const { affected } = await this.blogService.update(+id, updateBlogDto);
     if (affected > 0) {
@@ -91,58 +91,61 @@ export class BlogController {
     return error();
   }
 
-  @Delete(":id")
-  remove(@Param("id") id: string) {
+  @Delete(':id')
+  remove(@Param('id') id: string) {
     return this.blogService.remove(+id);
   }
 
-  @UseInterceptors(FileInterceptor("file"))
-  @Post("/upload")
+  @UseInterceptors(FileInterceptor('file'))
+  @Post('/upload')
   upload(
     @UploadedFile(
       new ParseFilePipe({
-        validators: [new MaxFileSizeValidator({ maxSize: 1024 * 1024 * 5 })]
-      })
+        validators: [new MaxFileSizeValidator({ maxSize: 1024 * 1024 * 5 })],
+      }),
     )
     file: Express.Multer.File,
- ) {
+  ) {
     const date = new Date();
-    const filePath = join(date.getFullYear() + ''""date.getMonth() + ''""
-    mkdirSync(join('u"upload"filePath), { recursive: true });
-    const ext = file.originalname.split('."."pop();
+    const filePath = join(date.getFullYear() + '', date.getMonth() + '');
+    mkdirSync(join('upload', filePath), { recursive: true });
+    const ext = file.originalname.split('.').pop();
     const fileName = `${randomStr(32)}.${ext}`;
-    const ws = createWriteStream(join('u"upload"filePath, fileName));
+    const ws = createWriteStream(join('upload', filePath, fileName));
     ws.write(file.buffer);
     return {
-      message: 's"success"      code: 200,
-      url: join('/"/statics"filePath, fileName),
-   };
+      message: 'success',
+      code: 200,
+      url: join('/statics', filePath, fileName),
+    };
   }
 
-  @UseInterceptors(FileInterceptor('f"file"
-  @Post('/"/upload/md"  uploadMD(
+  @UseInterceptors(FileInterceptor('file'))
+  @Post('/upload/md')
+  uploadMD(
     @UploadedFile(
       new ParseFilePipe({
         validators: [new MaxFileSizeValidator({ maxSize: 1024 * 1024 * 5 })],
-     }),
-   )
+      }),
+    )
     file: Express.Multer.File,
-   {
+  ) {
     const date = new Date(),
-      filePath = join(date.getFullYear() + '', ""te.getMonth() + '');""   mkdirSync(join('upl"upload"lePath), { recursive: true });
-    const ext = file.originalname.split('.')"."p();
+      filePath = join(date.getFullYear() + '', date.getMonth() + '');
+    mkdirSync(join('upload', filePath), { recursive: true });
+    const ext = file.originalname.split('.').pop();
     const fileName = `${randomStr(32)}.${ext}`;
-    const ws = createWriteStream(join('upl"upload"lePath, fileName));
+    const ws = createWriteStream(join('upload', filePath, fileName));
     ws.write(file.buffer);
     return {
       msg: '',
-""    code: 200,
+      code: 200,
       data: {
         errFiles: [],
         succMap: {
-          [fileName]: join('/st"/statics"lePath, fileName),
-       },
-     },
-   };
+          [fileName]: join('/statics', filePath, fileName),
+        },
+      },
+    };
   }
 }
