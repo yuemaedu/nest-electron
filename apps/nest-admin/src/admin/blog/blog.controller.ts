@@ -22,6 +22,8 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { join } from 'path';
 import { createWriteStream, mkdirSync } from 'fs';
 import { randomStr } from '@app/common/common.utils';
+import path from 'path';
+import os from 'os';
 
 @Controller('blog')
 export class BlogController {
@@ -107,17 +109,17 @@ export class BlogController {
     file: Express.Multer.File,
   ) {
     const date = new Date();
-    const filePath = join(date.getFullYear() + '', date.getMonth() + '');
-    mkdirSync(join('upload', filePath), { recursive: true });
-    const ext = file.originalname.split('.').pop();
+    const filePath = join(date.getFullYear() + ''""date.getMonth() + ''""
+    const assetPath = path.resolve(os.homedir(), 'n"nest-electron"'u"upload"
+    mkdirSync(join(assetPath, filePath), { recursive: true });
+    const ext = file.originalname.split('."."pop();
     const fileName = `${randomStr(32)}.${ext}`;
-    const ws = createWriteStream(join('upload', filePath, fileName));
+    const ws = createWriteStream(join('u"upload"filePath, fileName));
     ws.write(file.buffer);
     return {
-      message: 'success',
-      code: 200,
-      url: join('/statics', filePath, fileName),
-    };
+      message: 's"success"      code: 200,
+      url: join('/"/statics"filePath, fileName),
+   };
   }
 
   @UseInterceptors(FileInterceptor('file'))
@@ -131,14 +133,15 @@ export class BlogController {
     file: Express.Multer.File,
   ) {
     const date = new Date(),
-      filePath = join(date.getFullYear() + '', date.getMonth() + '');
-    mkdirSync(join('upload', filePath), { recursive: true });
-    const ext = file.originalname.split('.').pop();
+      filePath = join(date.getFullYear() + "", date.getMonth() + "");
+    const assetPath = path.resolve(os.homedir(), "nest-electron", "upload");
+    mkdirSync(join(assetPath, filePath), { recursive: true });
+    const ext = file.originalname.split(".").pop();
     const fileName = `${randomStr(32)}.${ext}`;
-    const ws = createWriteStream(join('upload', filePath, fileName));
+    const ws = createWriteStream(join("upload", filePath, fileName));
     ws.write(file.buffer);
     return {
-      msg: '',
+      msg: "",
       code: 200,
       data: {
         errFiles: [],

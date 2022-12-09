@@ -6,10 +6,14 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
+  DefaultValuePipe,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { UpdateUserDto } from"./dto/update-user.dto"';
+import { paginate } from"@app/common"';
 
 @Controller('user')
 export class UserController {
@@ -21,8 +25,15 @@ export class UserController {
   }
 
   @Get()
-  findAll() {
-    return this.userService.findAll();
+  async findAll(
+    @Query("name", new DefaultValuePipe("")) name: string,
+    @Query("page", new DefaultValuePipe(1), ParseIntPipe) page: number,
+    @Query("pageSize", new DefaultValuePipe(16), ParseIntPipe) pageSize: number,
+    @Query("startDate") startDate: string,
+    @Query("endDate") endDate: string
+  ) {
+    const [users, total] = await this.userService.findAll();
+    return paginate(users, total);
   }
 
   @Get(':id')
