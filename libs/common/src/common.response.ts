@@ -1,29 +1,37 @@
-export const success = (data = {}, message = 'success') => {
+export function paginate(items, total) {
   return {
-    success: true,
-    errorMessage: message,
-    data,
+    code: 0,
+    result: {
+      items,
+      total,
+    },
+    message: 'ok',
+    type: 'success',
   };
-};
-export const error = (message = 'error', data = {}) => {
-  return {
-    success: false,
-    errorMessage: message,
-    data,
-  };
-};
+}
 
-export function pagination<T>(
-  list: T[],
-  total: number,
-  current = 1,
-  pageSize = 15,
-) {
+export function success(result = {}) {
   return {
-    list,
-    pageSize,
-    total,
-    totalPage: Math.ceil(total / pageSize),
-    current,
+    code: 0,
+    message: 'ok',
+    result: {
+      code: 0,
+      message: 'success',
+      ...result,
+    },
+    type: 'success',
+  };
+}
+
+export function error(message = 'error', ext = {}) {
+  return {
+    code: 1,
+    message: 'error',
+    result: {
+      code: 1,
+      message,
+      ...ext,
+    },
+    type: 'error',
   };
 }

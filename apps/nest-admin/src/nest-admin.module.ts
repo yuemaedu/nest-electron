@@ -6,6 +6,7 @@ import { BlogModule } from './admin/blog/blog.module';
 import * as path from 'path';
 import * as os from 'os';
 import { AuthMiddleware } from '@app/common';
+import { UserModule } from './admin/user/user.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { AuthMiddleware } from '@app/common';
       synchronize: true,
     }),
     BlogModule,
+    UserModule,
   ],
   controllers: [NestAdminController],
   providers: [NestAdminService],
