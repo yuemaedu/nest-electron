@@ -25,8 +25,8 @@ export class BlogController {
 
   @Get()
   findAll(
-    @Query"current"', new DefaultValuePipe(1), ParseIntPipe) current: number,
-    @Query"pageSize"', new DefaultValuePipe(16), ParseIntPipe) pageSize: numbe,
+    @Query('current', new DefaultValuePipe(1), ParseIntPipe) current: number,
+    @Query('pageSize', new DefaultValuePipe(16), ParseIntPipe) pageSize: number,
   ) {
     return this.blogService.findAll();
   }

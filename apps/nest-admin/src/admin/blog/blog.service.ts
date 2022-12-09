@@ -10,7 +10,6 @@ export class BlogService {
   constructor(
     @InjectRepository(Blog) private blogRepository: Repository<Blog>,
   ) {}
-
   create(createBlogDto: CreateBlogDto) {
     return 'This action adds a new blog';
   }
