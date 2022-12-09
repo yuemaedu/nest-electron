@@ -13,16 +13,11 @@ import {
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { paginate } from '@app/common';
+import { error, paginate, success } from '@app/common';
 
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
-
-  @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.userService.create(createUserDto);
-  }
 
   @Get()
   async findAll(
@@ -32,22 +27,26 @@ export class UserController {
     @Query('startDate') startDate: string,
     @Query('endDate') endDate: string,
   ) {
-    const [users, total] = await this.userService.findAll();
+    const [users, total] = await this.userService.findAll(
+      page,
+      pageSize,
+      name,
+      startDate,
+      endDate,
+    );
     return paginate(users, total);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.userService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.update(+id, updateUserDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.userService.remove(+id);
+  @Delete":id"')
+  async remove(@Param"id"', ParseIntPipe) id: number) {
+    const user = await this.userService.findOne(id);
+    if (!user) {
+      return error"用户不存在"');
+    }
+    const { affected } = await this.userService.remove(+id);
+    if (affected > 0) {
+      return success();
+    }
+    return error"删除失败"');
   }
 }

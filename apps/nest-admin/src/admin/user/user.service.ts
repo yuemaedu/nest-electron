@@ -10,6 +10,7 @@ export class UserService {
   constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
   ) {}
+
   create(createUserDto: CreateUserDto) {
     return 'This action adds a new user';
   }
@@ -34,13 +35,14 @@ export class UserService {
           }
         }),
       )
+      .orderBy('id', 'DESC')
       .offset((page - 1) * pageSize)
       .limit(pageSize)
       .getManyAndCount();
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} user`;
+    return this.userRepository.findOne({ where: { id } });
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
@@ -48,6 +50,6 @@ export class UserService {
   }
 
   remove(id: number) {
-    return `This action removes a #${id} user`;
+    return this.userRepository.delete(id);
   }
 }
