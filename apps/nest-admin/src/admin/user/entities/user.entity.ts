@@ -7,7 +7,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Blog } from '../../blog/entities/blog.entity';
+import { Post } from '../../post/entities/post.entity';
 
 @Entity()
 export class User {
@@ -27,7 +27,6 @@ export class User {
 
   @Column()
   avatar: string;
-
-  @OneToMany(() => Blog, (blog) => blog.user)
-  blogs: Blog[];
+  @OneToMany(() => Post, (post) => post.user)
+  posts: Post[];
 }

@@ -18,15 +18,6 @@
         "tsConfigPath": "apps/nest-electron/tsconfig.app.json"
       }
     },
-    "nest-blog": {
-      "type": "application",
-      "root": "apps/nest-blog",
-      "entryFile": "main",
-      "sourceRoot": "apps/nest-blog/src",
-      "compilerOptions": {
-        "tsConfigPath": "apps/nest-blog/tsconfig.app.json"
-      }
-    },
     "nest-admin": {
       "type": "application",
       "root": "apps/nest-admin",

@@ -3,22 +3,21 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { User } from '../../user/entities/user.entity';
 
 @Entity()
-export class Blog {
+export class Post {
   @PrimaryGeneratedColumn()
   id: number;
-  @Column()
-  banner: string;
-  @Column()
-  title: string;
-  @Column()
-  description: string;
+
   @Column({ type: 'text' })
   content: string;
+  @ManyToOne(() => User, (user) => user.posts)
+  user: User;
 
   @CreateDateColumn()
   createdAt: Date;
@@ -28,10 +27,4 @@ export class Blog {
 
   @DeleteDateColumn()
   deletedAt: Date;
-
-  @Column({ default: 0 })
-  views: number;
-
-  @Column()
-  category: string;
 }

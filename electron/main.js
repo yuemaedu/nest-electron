@@ -3,7 +3,6 @@ const { app, BrowserWindow, Tray, Menu, shell } = require('electron');
 const path = require('path');
 const isMac = process.platform === 'darwin';
 require(path.resolve(__dirname, '../dist/apps/nest-admin/main.js'));
-require(path.resolve(__dirname, '../dist/apps/nest-blog/main.js'));
 require(path.resolve(__dirname, '../dist/apps/nest-electron/main.js'));
 
 const isDev = process.env.NODE_ENV === 'development';
