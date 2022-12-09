@@ -26,7 +26,7 @@ export class PostService {
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} post`;
+    return this.postRepository.findOne({ where: { id } });
   }
 
   update(id: number, updatePostDto: UpdatePostDto) {
@@ -34,6 +34,6 @@ export class PostService {
   }
 
   remove(id: number) {
-    return `This action removes a #${id} post`;
+    return this.postRepository.delete(id);
   }
 }

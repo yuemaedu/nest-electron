@@ -15,7 +15,7 @@ async function bootstrap() {
   app.useStaticAssets(assetPath, {
     prefix: '/statics',
   });
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
   app.useGlobalFilters(new HttpExceptionFilter());
   const config = new DocumentBuilder()
     .setTitle('Cats example')
