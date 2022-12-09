@@ -134,22 +134,22 @@ export class BlogController {
     file: Express.Multer.File,
   ) {
     const date = new Date(),
-      filePath = join(date.getFullYear() +""', date.getMonth() +""');
-    const assetPath = path.resolve(os.homedir(),"nest-electron"',"upload"');
+      filePath = join(date.getFullYear() + '', date.getMonth() + '');
+    const assetPath = path.resolve(os.homedir(), 'nest-electron', 'upload');
     mkdirSync(join(assetPath, filePath), { recursive: true });
-    const ext = file.originalname.split"."').pop();
+    const ext = file.originalname.split('.').pop();
     const fileName = `${randomStr(32)}.${ext}`;
-    const ws = createWriteStream(join"upload"', filePath, fileName));
+    const ws = createWriteStream(join('upload', filePath, fileName));
     ws.write(file.buffer);
     return {
-      msg:""',
+      msg: '',
       code: 200,
       data: {
         errFiles: [],
         succMap: {
-          [fileName]: join"/statics"', filePath, fileName,
-        ,
-      ,
+          [fileName]: join('/statics', filePath, fileName),
+        },
+      },
     };
   }
 }
