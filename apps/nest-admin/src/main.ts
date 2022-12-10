@@ -15,18 +15,20 @@ async function bootstrap() {
   app.useStaticAssets(assetPath, {
     prefix: '/statics',
   });
-  app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
+  app.useGlobalPipes(new ValidationPipe());
   app.useGlobalFilters(new HttpExceptionFilter());
   const config = new DocumentBuilder()
-    .setTitle('Cats example')
-    .setDescription('The cats API description')
+    .setTitle('nest-admin--nest+typeorm')
+    .setDescription('nest-admin')
     .setVersion('1.0')
-    .addTag('cats')
+    .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('nest-admin', app, document);
 
-  await app.listen(3002);
+  await app.listen(3002, () => {
+    console.log('http://localhost:3002');
+  });
 }
 
 bootstrap();

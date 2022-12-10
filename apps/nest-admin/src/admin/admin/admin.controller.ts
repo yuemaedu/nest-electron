@@ -16,17 +16,34 @@ import { UpdateAdminDto } from './dto/update-admin.dto';
 import { error, paginate, success } from '@app/common';
 import { LoginDto } from './dto/login.dto';
 import * as bcrypt from 'bcrypt';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { JwtService } from '@nestjs/jwt';
 
+@ApiTags('admin')
 @Controller('admin')
 export class AdminController {
-  constructor(private readonly adminService: AdminService) {}
+  constructor(
+    private readonly adminService: AdminService,
+    private readonly jwtService: JwtService,
+  ) {}
 
+  @ApiOperation({
+    operationId: 'createAdmin',
+    summary: '新增管理员',
+  })
   @Post()
   async create(@Body() createAdminDto: CreateAdminDto) {
+    console.log(createAdminDto, 'createAdminDto');
     const admin = await this.adminService.findAdminByName(createAdminDto.name);
     if (admin) {
       return error('管理员已经存在');
     }
+
+    const saltOrRounds = 10;
+    createAdminDto.password = await bcrypt.hash(
+      createAdminDto.password,
+      saltOrRounds,
+    );
     const { generatedMaps } = await this.adminService.create(createAdminDto);
     if (generatedMaps.length > 0) {
       return success();
@@ -80,7 +97,11 @@ export class AdminController {
     return error();
   }
 
-  @Post()
+  @ApiOperation({
+    operationId: 'login',
+    summary: '登录',
+  })
+  @Post('login')
   async login(@Body() loginDto: LoginDto) {
     const admin = await this.adminService.findAdminByName(loginDto.name);
     if (!admin) {
@@ -88,7 +109,12 @@ export class AdminController {
     }
     const isMatch = await bcrypt.compare(loginDto.password, admin.password);
     if (isMatch) {
-      return success();
+      const token = this.jwtService.sign(
+        { ...admin },
+        { secret: '最爱白菜吖', expiresIn: '2d' },
+      );
+
+      return success({ token });
     }
     return error('密码错误');
   }

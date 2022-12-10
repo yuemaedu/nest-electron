@@ -14,9 +14,15 @@ export class AdminService {
   create(createAdminDto: CreateAdminDto) {
     return this.adminRepository.insert(createAdminDto);
   }
+
   findAdminByName(name: string) {
-    return this.adminRepository.findOne({ where: { name } });
+    return this.adminRepository
+      .createQueryBuilder('admin')
+      .where('name = :name', { name })
+      .addSelect('admin.password')
+      .getOne();
   }
+
   findAll(name = '', page = 1, pageSize = 15, startDate = '', endDate = '') {
     return this.adminRepository
       .createQueryBuilder()
