@@ -14,6 +14,8 @@ import { AdminService } from './admin.service';
 import { CreateAdminDto } from './dto/create-admin.dto';
 import { UpdateAdminDto } from './dto/update-admin.dto';
 import { error, paginate, success } from '@app/common';
+import { LoginDto } from './dto/login.dto';
+import * as bcrypt from 'bcrypt';
 
 @Controller('admin')
 export class AdminController {
@@ -76,5 +78,18 @@ export class AdminController {
       return success();
     }
     return error();
+  }
+
+  @Post()
+  async login(@Body() loginDto: LoginDto) {
+    const admin = await this.adminService.findAdminByName(loginDto.name);
+    if (!admin) {
+      return error('管理员不存在');
+    }
+    const isMatch = await bcrypt.compare(loginDto.password, admin.password);
+    if (isMatch) {
+      return success();
+    }
+    return error('密码错误');
   }
 }
