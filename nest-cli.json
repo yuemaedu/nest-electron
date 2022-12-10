@@ -8,6 +8,9 @@
     "webpack": true,
     "tsConfigPath": "apps/nest-electron/tsconfig.app.json"
   },
+  "generateOptions": {
+    "spec": false
+  },
   "projects": {
     "nest-electron": {
       "type": "application",

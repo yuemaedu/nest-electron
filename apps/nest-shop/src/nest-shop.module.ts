@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { NestShopController } from './nest-shop.controller';
 import { NestShopService } from './nest-shop.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AdminModule } from './shop/admin/admin.module';
 import * as path from 'path';
 import * as os from 'os';
 @Module({
@@ -18,6 +19,7 @@ import * as os from 'os';
       autoLoadEntities: true,
       synchronize: true,
     }),
+    AdminModule,
   ],
   controllers: [NestShopController],
   providers: [NestShopService],

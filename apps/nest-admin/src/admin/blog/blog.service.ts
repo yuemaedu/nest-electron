@@ -14,6 +14,7 @@ export class BlogService {
   create(createBlogDto: CreateBlogDto) {
     return this.blogRepository.insert(createBlogDto);
   }
+
   deleteBlogs(ids: string[]) {
     return this.blogRepository.delete(ids);
   }
@@ -29,6 +30,8 @@ export class BlogService {
   ) {
     const res = this.blogRepository
       .createQueryBuilder()
+      .offset((page - 1) * pageSize)
+      .limit(pageSize)
       .where(
         new Brackets((q) => {
           if (title) {
