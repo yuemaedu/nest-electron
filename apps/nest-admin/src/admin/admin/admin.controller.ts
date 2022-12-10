@@ -13,15 +13,23 @@ import {
 import { AdminService } from './admin.service';
 import { CreateAdminDto } from './dto/create-admin.dto';
 import { UpdateAdminDto } from './dto/update-admin.dto';
-import { paginate, success } from '@app/common';
+import { error, paginate, success } from '@app/common';
 
 @Controller('admin')
 export class AdminController {
   constructor(private readonly adminService: AdminService) {}
 
   @Post()
-  create(@Body() createAdminDto: CreateAdminDto) {
-    return this.adminService.create(createAdminDto);
+  async create(@Body() createAdminDto: CreateAdminDto) {
+    const admin = await this.adminService.findAdminByName(createAdminDto.name);
+    if (admin) {
+      return error('管理员已经存在');
+    }
+    const { generatedMaps } = await this.adminService.create(createAdminDto);
+    if (generatedMaps.length > 0) {
+      return success();
+    }
+    return error('添加失败');
   }
 
   @Get()
@@ -43,8 +51,13 @@ export class AdminController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.adminService.findOne(+id);
+  async findOne(@Param('id', ParseIntPipe) id: number) {
+    let admin = await this.adminService.findOne(id);
+    if (!admin) {
+      return error('管理员不存在');
+    }
+    admin = await this.adminService.findOne(+id);
+    return success(admin);
   }
 
   @Patch(':id')
@@ -53,7 +66,15 @@ export class AdminController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.adminService.remove(+id);
+  async remove(@Param('id', ParseIntPipe) id: number) {
+    const admin = await this.adminService.findOne(id);
+    if (!admin) {
+      return error('管理员不存在');
+    }
+    const { affected } = await this.adminService.remove(+id);
+    if (affected > 0) {
+      return success();
+    }
+    return error();
   }
 }

@@ -12,9 +12,11 @@ export class AdminService {
   ) {}
 
   create(createAdminDto: CreateAdminDto) {
-    return 'This action adds a new admin';
+    return this.adminRepository.insert(createAdminDto);
   }
-
+  findAdminByName(name: string) {
+    return this.adminRepository.findOne({ where: { name } });
+  }
   findAll(name = '', page = 1, pageSize = 15, startDate = '', endDate = '') {
     return this.adminRepository
       .createQueryBuilder()
@@ -42,14 +44,14 @@ export class AdminService {
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} admin`;
+    return this.adminRepository.findOne({ where: { id } });
   }
 
   update(id: number, updateAdminDto: UpdateAdminDto) {
-    return `This action updates a #${id} admin`;
+    return this.adminRepository.update(id, updateAdminDto);
   }
 
   remove(id: number) {
-    return `This action removes a #${id} admin`;
+    return this.adminRepository.delete(id);
   }
 }
