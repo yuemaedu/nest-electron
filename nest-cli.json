@@ -35,6 +35,15 @@
       "compilerOptions": {
         "tsConfigPath": "libs/common/tsconfig.lib.json"
       }
+    },
+    "nest-shop": {
+      "type": "application",
+      "root": "apps/nest-shop",
+      "entryFile": "main",
+      "sourceRoot": "apps/nest-shop/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/nest-shop/tsconfig.app.json"
+      }
     }
   }
 }

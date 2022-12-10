@@ -16,7 +16,7 @@
     "format": "prettier --write \"apps/**/*.ts\" \"libs/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",
-    "start:nest-blog:dev": "nest start nest-blog --watch",
+    "start:nest-shop:dev": "nest start nest-shop --watch",
     "start:nest-admin:dev": "nest start nest-admin --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
