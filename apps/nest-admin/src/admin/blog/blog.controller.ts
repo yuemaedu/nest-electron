@@ -22,8 +22,8 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { join } from 'path';
 import { createWriteStream, mkdirSync } from 'fs';
 import { randomStr } from '@app/common/common.utils';
-import path from 'path';
-import os from 'os';
+import * as path from 'path';
+import * as os from 'os';
 
 @Controller('blog')
 export class BlogController {
@@ -114,7 +114,7 @@ export class BlogController {
     mkdirSync(join(assetPath, filePath), { recursive: true });
     const ext = file.originalname.split('.').pop();
     const fileName = `${randomStr(32)}.${ext}`;
-    const ws = createWriteStream(join('upload', filePath, fileName));
+    const ws = createWriteStream(join(assetPath, filePath, fileName));
     ws.write(file.buffer);
     return {
       message: 'success',
@@ -139,7 +139,7 @@ export class BlogController {
     mkdirSync(join(assetPath, filePath), { recursive: true });
     const ext = file.originalname.split('.').pop();
     const fileName = `${randomStr(32)}.${ext}`;
-    const ws = createWriteStream(join('upload', filePath, fileName));
+    const ws = createWriteStream(join(assetPath, filePath, fileName));
     ws.write(file.buffer);
     return {
       msg: '',

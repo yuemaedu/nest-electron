@@ -10,7 +10,9 @@ import { mkdirSync } from 'fs';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(NestAdminModule);
+  app.setGlobalPrefix('/admin');
   const assetPath = path.resolve(os.homedir(), 'nest-electron', 'upload');
+  console.log(assetPath);
   mkdirSync(assetPath, { recursive: true });
   app.useStaticAssets(assetPath, {
     prefix: '/statics',
